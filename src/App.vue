@@ -14,6 +14,7 @@ const produtos = ref([
     nome: 'Batom Líquido',
     preco: 29.90,
     descricao: '',
+    imagem:"batomliquido.png"
   },
   {
     id: 2,
@@ -169,41 +170,13 @@ function decrementarContador(item) {
 </script>
 
 <template>
-  <main>
-    <h1>Compras</h1>
-
-    <div class="produtos">
-      <div v-for="produto in produtos" :key="produto.id">
-
-        <p class="title">
-          {{ produto.nome }}
-        </p>
-
-
-        <p class="quantidade">Quantidade: </p>
-
-        <div class="contador">
-
-          <button class="decrementar" @click="decrementarContador(produto)">-</button>
-
-          {{ carrinho[produto.id - 1].quantidade }}
-
-          <button class="incrementar" @click="incrementarContador(produto)">+</button>
-
-        </div>
-
-        <button class="button-28" @click="selecionarProduto(produto)"> {{ Descricao && produto.id ===
-          produtoSelecionado.id ? 'Ocultar Descrição' : 'Mostrar descrição' }}</button>
-
-        <div class="descricao" v-if="Descricao && produto.id === produtoSelecionado.id">{{ produto.descricao }}</div>
-
-        <div v-if="Descricao && produto.id === produtoSelecionado.id">
-
-          <p class="preco">Preço: {{ produto.preco }}R$</p>
-        </div>
-
-      </div>
+<div v-for="(produto,index) in produtos " :key="index" > {{ produto.id }} {{ produto.nome }}
+    <img :src="produto.imagem" alt="" width="200">
+    <button class="btn-adicionar" @click="incrementar">+</button>
+    <img :src="batomliquido.png" alt="" width="25" class="btn-deletar" @click="resetar">
+    <button class="btn-decrmentar" @click="decrementar">-</button>
+    <p>Quantidade de produtos:{{ quantidade }}</p>
     </div>
-  </main>
+  
 
 </template>
