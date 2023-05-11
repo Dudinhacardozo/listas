@@ -1,182 +1,150 @@
 <script setup>
-import { ref, computed } from 'vue'
 
-const Descricao = ref(false);
-const produtoSelecionado = ref({});
-const contador = ref(0);
-const totalItem = computed(() => {
-  return produtos.value.preco * contador.value
+import { ref } from 'vue'
+
+
+const listaCompras = ref([
+{
+        id: 1,
+        nome: ' calça wide leg',
+        preco: 99.90,
+        quantidade: 0,
+
+    },
+    {
+        id: 2,
+        nome: 'Shorts Saia',
+        preco: 59.90,
+        quantidade: 0,
+    },
+    {
+        id: 3,
+        nome: 'Blusa',
+        preco: 29.90,
+        quantidade: 0,
+    },
+    {
+        id: 4,
+        nome: 'Saia',
+        preco: 45.56,
+        quantidade: 0,
+    },
+    {
+        id: 5,
+        nome: 'Biquíne',
+        preco: 60.99,
+        quantidade: 0,
+    },
+    {
+        id: 6,
+        nome: 'Casaco De Moletom',
+        preco: 200.00,
+        quantidade: 0,
+    },
+    {
+        id: 7,
+        nome: 'Jaqueta Jeans',
+        preco: 299.90,
+        quantidade: 0,
+    },
+    {
+        id: 8,
+        nome: 'Vestido',
+        preco: 79.90,
+        quantidade: 0,
+    },
+    {
+        id: 9,
+        nome: 'Blusa De Tricô',
+        preco: 29.90,
+        quantidade: 0,
+    },
+    {
+        id: 10,
+        nome: 'Cropped',
+        preco: 59.90,
+        quantidade: 0,
+    }
+])
+
+const carrinhos = ref({
+  items: [],
+  total: 0,
+    
 })
 
-const produtos = ref([
-  {
-    id: 1,
-    nome: 'Batom Líquido',
-    preco: 29.90,
-    descricao: '',
-    imagem:"batomliquido.png"
-  },
-  {
-    id: 2,
-    nome: 'Paleta De Sombra',
-    preco: 59.90,
-    descricao: '',
-  },
-  {
-    id: 3,
-    nome: 'Deliniador Colorido',
-    preco: 11.75,
-    descricao: '',
-  },
-  {
-    id: 4,
-    nome: 'Blush',
-    preco: 19.95,
-    descricao: '',
-  },
-  {
-    id: 5,
-    nome: 'Pó Compacto',
-    preco: 29.90,
-    descricao: '',
-  },
-  {
-    id: 6,
-    nome: 'Demaquilante',
-    preco: 10.00,
-    descricao: '',
-  },
-  {
-    id: 7,
-    nome: 'Contorno em pó',
-    preco: 29.00,
-    descricao: '',
-  },
-  {
-    id: 8,
-    nome: 'Iluminador',
-    preco: 17.99,
-    descricao: '',
-  },
-  {
-    id: 9,
-    nome: 'Base Líquida',
-    preco: 21.50,
-    descricao: '',
-  },
-  {
-    id: 10,
-    nome: 'Rimel',
-    preco: 15.69,
-    descricao: '',
+function incrementar(index) {
+    listaCompras.value[index].quantidade++
   }
-]);
-
-const carrinho = ref([
-  {
-
-    id: 1,
-    nome: 'Batom Líquido',
-    preco: 29.90,
-    quantidade: 0,
-    valorTotal: ''
-  },
-  {
-    id: 2,
-    nome: 'Paleta De Sombra',
-    preco: 59.90,
-    quantidade: 0,
-    valorTotal: ''
-  },
-  {
-    id: 3,
-    nome: 'Deliniador Colorido',
-    preco: 11.75,
-    quantidade: 0,
-    valorTotal: ''
-  },
-  {
-    id: 4,
-    nome: 'Blush',
-    preco: 19.95,
-    quantidade: 0,
-    valorTotal: ''
-  },
-  {
-    id: 5,
-    nome: 'Pó Compacto',
-    preco: 29.90,
-    quantidade: 0,
-    valorTotal: ''
-  },
-  {
-    id: 6,
-    nome: 'Demaquilante',
-    preco: 10.00,
-    quantidade: 0,
-    valorTotal: ''
-  },
-  {
-    id: 7,
-    nome: 'Contorno em pó',
-    preco: 29.00,
-    quantidade: 0,
-    valorTotal: ''
-  },
-  {
-    id: 8,
-    nome: 'Iluminador',
-    preco: 17.99,
-    quantidade: 0,
-    valorTotal: ''
-  },
-  {
-    id: 9,
-    nome: 'Base Líquida',
-    preco: 21.50,
-    quantidade: 0,
-    valorTotal: ''
-  },
-  {
-    id: 10,
-    nome: 'Rimel',
-    preco: 15.69,
-    quantidade: 0,
-    valorTotal: ''
+  function decrementar(index) {
+    if(listaCompras.value[index].quantidade > 0){
+      listaCompras.value[index].quantidade--
+    }
   }
-]);
-
-function selecionarProduto(produto) {
-  if (produto.id === produtoSelecionado.value.id) {
-    Descricao.value = !Descricao.value;
-  } else {
-    produtoSelecionado.value = produto;
-    Descricao.value = true;
+  
+  function adicionar(index) {
+    if(listaCompras.value[index].quantidade > 0){
+      
+      carrinhos.value.items.push(
+        {...listaCompras.value[index], preco: listaCompras.value[index].quantidade * listaCompras.value[index].preco}
+      );
+      
+      carrinhos.value.total = carrinhos.value.total + listaCompras.value[index].preco * listaCompras.value[index].quantidade
+       
+    }
+    
   }
-};
-
-function incrementarContador(item) {
-  carrinho.value[item.id - 1].quantidade += 1;
-};
-
-function decrementarContador(item) {
-
-  if (carrinho.value[item.id - 1].quantidade > 0) {
-    carrinho.value[item.id - 1].quantidade -= 1;
-  };
-};
-
-
 </script>
 
 <template>
-<div v-for="(produto,index) in produtos " :key="index" > {{ produto.id }} {{ produto.nome }}
-    <img :src="produto.imagem" alt="" width="200">
-    <button class="btn-adicionar" @click="incrementar">+</button>
-    <img :src="batomliquido.png" alt="" width="25" class="btn-deletar" @click="resetar">
-    <button class="btn-decrmentar" @click="decrementar">-</button>
-    <p>Quantidade de produtos:{{ quantidade }}</p>
-    </div>
-  
+  <h1 class="titulo">DK</h1>
+  <h2 class="titulo">Duda Kardozo</h2>
+        
+  <div class="produtos">
+    <ul>
+      <li class="lista" v-for="(item, index) in listaCompras" :key="item.id">
+        <p>Item: {{ item.nome }}</p>
+        <p>Preco: {{ item.preco }}</p>
+        <p>ID: {{ item.id }}</p>
+        <p>quantidade: {{ item.quantidade }}</p>
+        <button @click="incrementar(index)">+</button>
+        <button @click="decrementar(index)">-</button>
+        <button @click="adicionar(index)">Adicionar</button>
+      </li>
+    </ul>
+    <hr>
+  </div>
 
+  <div class="carrinhoC">
+  <ul>
+
+    <li v-for="item in carrinhos.items">
+        <p>Item: {{ item.nome }}</p>
+        <p>Preco: {{ item.preco.toFixed(2) }}</p>
+        <p>ID: {{ item.id }}</p>
+        <p>Quantidade: {{ item.quantidade }}</p>
+
+       
+    </li>
+
+    <p> Total:{{ carrinhos.total.toFixed(2) }}</p>
+  </ul>
+  </div>
 </template>
+
+<style scoped>
+
+.titulo{
+  text-align: center;
+  font-family: Garamond	;
+  color: hotpink;
+}
+
+li{
+ display: grid;
+  align-items:center;
+  margin-bottom: 30px;
+  grid-template-columns: 1fr ;
+}
+
+</style>
