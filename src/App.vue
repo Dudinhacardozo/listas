@@ -106,6 +106,9 @@ function adicionar(index) {
   }
 
 }
+function removerPecaCarrinho(i) {
+  carrinhos.value.items.splice(i, 1)
+}
 </script>
 
 <template>
@@ -120,7 +123,7 @@ function adicionar(index) {
         <p>quantidade: {{ item.quantidade }}</p>
         <img class="imagem" :src="item.img" />
         <div class="acoes">
-          <button @click="incrementar(index)">+</button>
+          <button  @click="incrementar(index)">+</button>
           <button @click="decrementar(index)">-</button>
           <button @click="adicionar(index)">Adicionar</button>
         </div>
@@ -131,17 +134,16 @@ function adicionar(index) {
 
   <div class="carrinhoC">
     <ul>
-
+       <p class="textocarrinho">Veja seu carinho de compras aqui:</p>
       <li v-for="item in carrinhos.items">
         <p>Item: {{ item.nome }}</p>
         <p>Preco: {{ item.preco.toFixed(2) }}</p>
-        <p>ID: {{ item.id }}</p>
         <p>Quantidade: {{ item.quantidade }}</p>
-
-
+        <p> Total:{{ carrinhos.total.toFixed(2) }}</p>
       </li>
+      
+      <button class="botaoremover" @click="removerPecaCarrinho">Remover </button>
 
-      <p> Total:{{ carrinhos.total.toFixed(2) }}</p>
     </ul>
   </div>
 </template>
@@ -192,5 +194,21 @@ function adicionar(index) {
   -moz-box-shadow: 15px 10px 20px #c27dab;
   -webkit-box-shadow: 20px 20px 20px #b670abbe;
   border-radius: 70%;
+}
+.carrinhoC{
+  font-family: Clarendon Condensed;
+  background-color: #c27dab; 
+border:10px solid #f0f; 
+padding: 5px;
+text-align:justify;
+}
+.textocarrinho{
+  text-align: center;
+}
+.botaoremover{
+  color: #d637a1;
+}
+button{
+  color:#942283be;
 }
 </style>
